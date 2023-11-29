@@ -1,0 +1,84 @@
+/* global */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* custom */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+.menu {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-around;
+  width: auto;
+}
+.button {
+  width: 80px;
+  height: 30px;
+  background-color: hsl(164deg 100% 50%);
+}
+.logo-outer-wrapper {
+  display: flex;
+}
+
+.outer-disconnected {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.outer-connected {
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+.inner-connected {
+  width: 120px;
+  height: 30px;
+}
+
+.logo {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+}
+.images {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+.container {
+  width: 600px;
+  height: 400px;
+}
