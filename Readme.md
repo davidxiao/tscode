@@ -34,6 +34,10 @@ Having said that, the tasks into below parts:
 
 Yes,
 
+- could improve unit tests and do more unit tests.
+
+- could improve UI
+
 ### What would you do differently if you were allocated more time?
 
 I could improve the tests,
@@ -42,4 +46,4 @@ I could improve the UI for front end
 
 ### Commit history
 
-I will try to commit several times, or maybe we can discuss further if it's not what you want to see
+I will try to commit several times, or maybe we can discuss further if it's not what you want
