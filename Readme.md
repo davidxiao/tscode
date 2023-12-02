@@ -18,7 +18,7 @@ Could run by `yarn run dev`
 
 ### How did you decide on the technical and architectural choices used as part of your solution?
 
-Overview, it's not complex project, so no special architectural choice when doing with time pressure, but much details oriented
+Overview, it's not complex project, so no special architectural choice when doing with time pressure, but many details need to be careful.
 
 Having said that, the tasks into below parts:
 
@@ -30,19 +30,15 @@ Having said that, the tasks into below parts:
 
 - frontend,
 
-### Are there any improvements you could make to your submission?
-
-Yes,
-
-- could improve unit tests and do more unit tests.
-
-- could improve UI
-
 ### What would you do differently if you were allocated more time?
 
-I could improve the tests,
+- I think most of the system is good for me, but I can improve stability, edge cases, etc
 
-I could improve the UI for front end
+- the bundling part probably can improve as well, especially need to compile into one single file, which ideally include all imported code, maybe need 3rd tools, or need more time to explore.
+
+- I could improve the tests,
+
+- I could improve the UI for front end
 
 ### Commit history
 

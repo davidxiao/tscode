@@ -1,6 +1,4 @@
-const socket = new WebSocket("ws://localhost:8081");
 let canHash = true;
-let isConnected = false;
 
 const outerWrapperId = "logo-outer-wrapper-id";
 const outerDisConnectedClass = "outer-disconnected";
@@ -14,7 +12,10 @@ const logoOuterWrapper = document.getElementById(outerWrapperId);
 const logoInnerWrapper = document.getElementById(innerWrapperId);
 
 function removeImages() {
-  blobs!.innerHTML = "";
+  if (!blobs) {
+    return;
+  }
+  blobs.innerHTML = "";
 }
 function applyConnectedCss() {
   logoOuterWrapper?.classList.remove(outerDisConnectedClass);
@@ -27,21 +28,39 @@ function applyDisconnectedCss() {
   logoInnerWrapper?.classList.remove(innerConnectedClass);
   removeImages();
 }
-applyDisconnectedCss();
+async function createHash(blob: Blob) {
+  const buffer = await blob.arrayBuffer();
+  const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
+  var hashArray = Array.from(new Uint8Array(hashBuffer));
+  var hashHex = hashArray.map((byte) => byte.toString(16).padStart(2, "0")).join("");
+  return hashHex;
+}
 async function sleep(ms: number) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
 }
-socket.onopen = async (event) => {
+
+function addButtonListener() {
+  const button = document.getElementById("button");
+  button?.addEventListener("click", (e) => {
+    console.log(canHash);
+    if (canHash) {
+      canHash = false;
+    } else {
+      canHash = true;
+    }
+  });
+}
+async function onOpen() {
   // await sleep(5000);
   applyConnectedCss();
   console.log("WebSocket is connected!");
-};
-socket.onmessage = async (msg: any) => {
+}
+async function onMessage(socket: WebSocket, msg: any) {
   const { id, image } = JSON.parse(msg.data || {});
   const res = await fetch(image);
-  if (!res.ok) {
+  if (!res?.ok) {
     return;
   }
   const blob = await res.blob();
@@ -57,29 +76,27 @@ socket.onmessage = async (msg: any) => {
   } else {
     socket.send(JSON.stringify({ id, hash: null }));
   }
-};
-socket.onerror = (error) => {
+}
+function onError(error: any) {
   console.error(`Web Socket error`, error);
-};
-socket.onclose = (event) => {
+}
+function onClose() {
   applyDisconnectedCss();
   console.log("Disconnected from WebSocket server");
-};
-async function createHash(blob: Blob) {
-  const buffer = await blob.arrayBuffer();
-  const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
-  var hashArray = Array.from(new Uint8Array(hashBuffer));
-  var hashHex = hashArray.map((byte) => byte.toString(16).padStart(2, "0")).join("");
-  return hashHex;
+}
+function connect() {
+  const socket = new WebSocket("ws://localhost:8081");
+  socket.onopen = onOpen;
+  socket.onmessage = (msg) => {
+    onMessage(socket, msg);
+  };
+  socket.onerror = onError;
+  socket.onclose = onClose;
 }
 
-const button = document.getElementById("button");
-
-button?.addEventListener("click", (e) => {
-  console.log(canHash);
-  if (canHash) {
-    canHash = false;
-  } else {
-    canHash = true;
-  }
-});
+function init() {
+  applyDisconnectedCss();
+  addButtonListener();
+  connect();
+}
+init();
